@@ -7,6 +7,13 @@ pipeline{
 	}
 
 	stages {
+		stage('Cloning Web Repository From BitBucket') {
+            steps {
+                script{
+                checkout scm
+                }
+            }
+        }
 
 		stage('Build') {
 
