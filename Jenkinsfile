@@ -11,7 +11,7 @@ pipeline{
 		stage('Build') {
 
 			steps {
-				sh 'docker build -t srilakshmi21/nginxdockermay3:${env.GIT_COMMIT[0..6]} .'
+				sh 'docker build -t srilakshmi21/nginxdockermay3:latest .'
 			}
 		}
 
@@ -25,19 +25,19 @@ pipeline{
 		stage('Push') {
 
 			steps {
-				sh 'docker push srilakshmi21/nginxdockermay3:${env.GIT_COMMIT[0..6]}'
+				sh 'docker push srilakshmi21/nginxdockermay3:latest'
 			}
 		}
 		stage('Pull') {
 
 			steps {
-				sh 'docker pull srilakshmi21/nginxdockermay3:${env.GIT_COMMIT[0..6]}'
+				sh 'docker pull srilakshmi21/nginxdockermay3:latest'
 			}
 		}
 		stage('deploy') {
 
 			steps {
-				sh 'docker run -itd  --name sunil1 srilakshmi21/nginxdockermay3:${env.GIT_COMMIT[0..6]'
+				sh 'docker run -itd  --name sunil1 srilakshmi21/nginxdockermay3:latest'
 			}
 		}
 	}
