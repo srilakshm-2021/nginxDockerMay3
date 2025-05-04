@@ -1,35 +1,45 @@
-pipeline {
-    agent any
+pipeline{
 
-    environment {
-        IMAGE_NAME = 'srilakshmi21/nginxdockermay3'
-        DOCKER_CREDENTIALS_ID = 'docker-hub'
-    }
+	agent any
 
-    stages {
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/srilakshmi-2021/nginxDockerMay3.git'
-            }
-        }
+	environment {
+		DOCKERHUB_CREDENTIALS=credentials('srilakshmi21')
+	}
 
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    docker.build("${IMAGE_NAME}:latest")
-                }
-            }
-        }
+	stages {
 
-        stage('Push to Docker Hub') {
-            steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS_ID) {
-                        docker.image("${IMAGE_NAME}:latest").push()
-                    }
-                }
-            }
-        }
-    }
+		stage('Build') {
+
+			steps {
+				sh 'docker build -t srilakshmi21/nginxdockermay3:${env.GIT_COMMIT[0..6]} .'
+			}
+		}
+
+		stage('Login') {
+
+			steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+			}
+		}
+
+		stage('Push') {
+
+			steps {
+				sh 'docker push srilakshmi21/nginxdockermay3:${env.GIT_COMMIT[0..6]}'
+			}
+		}
+		stage('Pull') {
+
+			steps {
+				sh 'docker pull srilakshmi21/nginxdockermay3:${env.GIT_COMMIT[0..6]}'
+			}
+		}
+		stage('deploy') {
+
+			steps {
+				sh 'docker run -itd  --name sunil1 srilakshmi21/nginxdockermay3:${env.GIT_COMMIT[0..6]'
+			}
+		}
+	}
+
 }
-
