@@ -1,18 +1,17 @@
-pipeline{
+pipeline {
+    agent any
 
-	agent any
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('srilakshmi21')
+    }
 
-	environment {
-		DOCKERHUB_CREDENTIALS=credentials('srilakshmi21')
-	}
-
-	stages {
-		stage('Cloning Web Repository From BitBucket') {
+    stages {
+        stage('Cloning Web Repository From BitBucket') {
             steps {
-                script{
-                checkout scm
+                script {
+                    checkout scm
                 }
             }
         }
-
-	}
+    }
+}
