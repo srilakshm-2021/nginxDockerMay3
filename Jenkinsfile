@@ -33,5 +33,11 @@ pipeline {
 				sh 'docker pull srilakshmi21/nginxdockermay3:latest'
 			}
 		}
+	        stage('deploy') {
+			steps {
+				sh 'docker run -itd  --name sri srilakshmi21/nginxdockermay3:latest'
+			}
+		}
+
     }
 }
